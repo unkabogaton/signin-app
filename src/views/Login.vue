@@ -7,7 +7,7 @@
             Login
           </div>
           <v-card-text class="pa-7">
-            <v-form @submit.prevent="">
+            <v-form @submit.prevent="signIn">
               <v-text-field
                 label="Username"
                 v-model="username"
@@ -33,12 +33,23 @@
 </template>
 
 <script>
+import { useUsers } from "@/stores/counter";
 export default {
   data() {
     return {
       username: "",
       password: "",
     };
+  },
+  methods: {
+    async signIn() {
+      const store = useUsers();
+      await store.signIn(this.username, this.password);
+      // Implement Pinia action to handle login
+      //   await this.useStore.store.actions.login(this.username, this.password);
+      //   // Redirect to home page
+      this.$router.push("/");
+    },
   },
 };
 </script>
